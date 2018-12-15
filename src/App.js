@@ -6,61 +6,64 @@ import Nav from './Components/Nav';
 import NotFound from './Components/NotFound';
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      currentUser: null
+      currentUser: {
+        username: "Default User"
+      }
     }
   }
 
-updateUser = (user) => {
+  updateUser = (user) => {
   this.setState({ currentUser: user })
-}
+  }
 
-componentDidMount(){
+  componentDidMount(){
   //see if there's a token
   //send that token to the backend
   //backend will send currentUser data
 
-  let token = localStorage.getItem('token')
-  if(token) {
-    fetch(`http://localhost:3000/api/v1/profile`, {
-      method: "GET",
-      headers: {
-        "Authentication" : `Bearer ${token}`
-      }
-    }).then(resp => resp.json())
-    .then(data => {
-      this.setState({
-        currentUser: data.user
+    let token = localStorage.getItem('token')
+    if(token) {
+      fetch(`http://localhost:3000/api/v1/profile`, {
+        method: "GET",
+        headers: {
+          "Authentication" : `Bearer ${token}`
+        }
+      }).then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          currentUser: data.user
+        })
       })
-    })
+    }
   }
-}
 
-
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+  logout = () => {
+    localStorage.removeItem(`token`);
+    this.setState({currentUser: null})
   }
-}
 
-export default App;
+  render(){
+      return (
+        <Fragment>
+          <Nav logged_in={!!this.state.currentUser} logout={this.logout}/>
+          <Switch>
+            <Route exact path="/" render={() => <Redirect to="/profile" />} />
+            <Route exact path="/profile" render={() => <Profile currentUser={this.state.currentUser} />} />
+            <Route exact path="/login" render={() => this.state.currentUser ?
+              <Redirect to='/profile'/> :
+              <LoginForm updateCurrentUser={this.updateCurrentUser}
+              />
+            }
+          />
+            <Route component={NotFound} />
+          </Switch>
+        </Fragment>
+            )
+          }
+  }
+
+export default withRouter(App);
