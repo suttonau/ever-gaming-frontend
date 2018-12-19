@@ -26,7 +26,16 @@ class LoginForm extends React.Component {
         password: this.state.password
       })
     }).then(resp => resp.json())
-    .then(console.log)
+    .then(data => {
+      if (data.error) {
+        alert('wrong!')
+      } else {
+        localStorage.setItem('token', data.token)
+        //set the state of currentUser, to be the user that is logged in
+        this.props.updateCurrentUser(data.user)
+
+      }
+    })
   }
 
 
@@ -43,7 +52,7 @@ class LoginForm extends React.Component {
 
       <Message
         error
-        header={this.props.failedLogin ? this.props.error : null};
+        header={this.props.failedLogin ? this.props.error : null}
         />
 
       <Form.Group widths="equal">
