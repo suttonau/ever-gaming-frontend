@@ -1,15 +1,18 @@
 import React, { Fragment } from "react";
+import _ from "lodash";
+
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Profile from "./Components/Profile";
 import LoginForm from "./Components/LoginForm";
 import Nav from "./Components/Nav";
 import NotFound from "./Components/NotFound";
-import Videos from "./Containers/Videos";
+// import Videos from "./Containers/Videos";
 
-// import SearchBar from "./Components/SearchBar";
-// import VideoDetail from "./Components/VideoDetail";
-// import VideoList from "./Components/VideoList"
-import "./App.css";
+import VideoList from "./Components/VideoList";
+import VideoDetail from "./Components/VideoDetail";
+import SearchBar from "./Components/SeachBar";
+import Playlist from "./Components/Playlist";
+import { API_KEY } from "./keys";
 
 const response = [
   {
@@ -79,6 +82,7 @@ class App extends React.Component {
           });
         });
     }
+    this.fetchVideos("GTA V Gameplay");
   }
 
   logout = () => {
@@ -86,7 +90,33 @@ class App extends React.Component {
     this.setState({ currentUser: null });
   };
 
+  fetchVideos = text => {
+    let searchTerm = text;
+    this.setState({ selectedVideo: null, searchResults: [] });
+    fetch(
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&key=${API_KEY}&q=${searchTerm}&type=video`
+    )
+      .then(resp => resp.json())
+      .then(data =>
+        this.setState({
+          searchResults: data.items,
+          selectedVideo: data.items[0]
+        })
+      );
+  };
+
+  updateSelected = video => {
+    this.setState({
+      selectedVideo: video
+    });
+  };
+
+  // componentDidMount() {
+  //   this.fetchVideos("GTA V Gameplay");
+  // }
+
   render() {
+    let debounceSearch = _.debounce(this.fetchVideos, 200);
     return (
       <Fragment>
         <Nav logged_in={!!this.state.currentUser} logout={this.logout} />
@@ -95,16 +125,25 @@ class App extends React.Component {
           <Route
             path="/home"
             render={() => (
-              <Videos
-                {...this.state.searchResults}
-                {...this.state.selectedVideo}
-              />
+              <div className="ui grid container">
+                <SearchBar onChangeSearch={debounceSearch} />
+                {this.state.selectedVideo ? (
+                  <VideoDetail {...this.state.selectedVideo} />
+                ) : (
+                  "Loading..."
+                )}
+                <VideoList
+                  selectVideo={this.updateSelected}
+                  videos={this.state.searchResults}
+                />
+              </div>
             )}
           />
           <Route
             path="/profile"
             render={() => <Profile currentUser={this.state.currentUser} />}
           />
+          <Route path="/playlist" render={() => <Playlist />} />
           <Route
             path="/login"
             render={() =>

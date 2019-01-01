@@ -1,6 +1,14 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { Button, Form, Segment, Message } from "semantic-ui-react";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Image,
+  Segment,
+  Message
+} from "semantic-ui-react";
 
 class LoginForm extends React.Component {
   state = {
@@ -11,75 +19,100 @@ class LoginForm extends React.Component {
   handleChange = (event, { name, value }) => {
     this.setState({
       [name]: value
-    })
-  }
+    });
+  };
 
   handleLoginSubmit = () => {
     fetch(`http://localhost:3000/api/v1/login`, {
       method: "POST",
       headers: {
-        "Content-type" : "application/json",
-        "Accept" : "application/json"
+        "Content-type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify({
         username: this.state.username,
         password: this.state.password
       })
-    }).then(resp => resp.json())
-    .then(data => {
-      if (data.error) {
-        alert('wrong!')
-      } else {
-        localStorage.setItem('token', data.token)
-        //set the state of currentUser, to be the user that is logged in
-        this.props.updateCurrentUser(data.user)
-
-      }
     })
-  }
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.error) {
+          alert("wrong!");
+        } else {
+          localStorage.setItem("token", data.token);
+          //set the state of currentUser, to be the user that is logged in
+          this.props.updateCurrentUser(data.user);
+        }
+      });
+  };
 
-
-  render(){
-    return(
-      <Segment>
-      <Form
-        onSubmit={this.handleLoginSubmit}
-        size="mini"
-        key="mini"
-        loading={this.props.authenticatingUser}
-        error={this.props.failedLogin}
+  render() {
+    return (
+      <div className="login-form">
+        {/*
+     Heads up! The styles below are necessary for the correct render of this example.
+     You can do same with CSS, the main idea is that all the elements up to the `Grid`
+     below must have a height of 100%.
+   */}
+        <Grid
+          textAlign="center"
+          style={{ height: "100%" }}
+          verticalAlign="middle"
         >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h2" color="teal" textAlign="center">
+              <Image src="/logo.png" /> Log-in to your account
+            </Header>
 
-      <Message
-        error
-        header={this.props.failedLogin ? this.props.error : null}
-        />
+            <Form
+              onSubmit={this.handleLoginSubmit}
+              size="large"
+              key="large"
+              loading={this.props.authenticatingUser}
+              error={this.props.failedLogin}
+            >
+              <Segment stacked>
+                <Message
+                  error
+                  header={this.props.failedLogin ? this.props.error : null}
+                />
 
-      <Form.Group widths="equal">
-        <Form.Input
-          label="username"
-          placeholder="username"
-          name="username"
-          onChange={this.handleChange}
-          value={this.state.username}
-        />
+                <Form.Input
+                  label="username"
+                  placeholder="username"
+                  name="username"
+                  onChange={this.handleChange}
+                  value={this.state.username}
+                />
 
-        <Form.Input
-          type="password"
-          label="password"
-          placeholder="password"
-          name="password"
-          onChange={this.handleChange}
-          value={this.state.password}
-        />
+                <Form.Input
+                  type="password"
+                  label="password"
+                  placeholder="password"
+                  name="password"
+                  onChange={this.handleChange}
+                  value={this.state.password}
+                />
 
-        </Form.Group>
-
-        <Button type="submit">Login</Button>
-        </Form>
-        </Segment>
+                <Button type="submit">Login</Button>
+              </Segment>
+            </Form>
+          </Grid.Column>
+        </Grid>
+      </div>
     );
   }
 }
 
 export default withRouter(LoginForm);
+
+// //line 57
+// <style>
+// {`
+//   body > div,
+//   body > div > div,
+//   body > div > div > div.login-form {
+//     height: 100%;
+//   }
+//   `}
+//   </style>
