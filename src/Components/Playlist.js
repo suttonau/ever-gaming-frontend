@@ -8,11 +8,7 @@ const Playlist = props => {
       <h1>My Playlist</h1>
       <div className="ui relaxed items">
         {props.myPlaylist.map(video => (
-          <VideoListItem
-            key={video.id.videoId}
-            clickHandler={() => props.selectVideo(video)}
-            {...video}
-          />
+          <VideoListItem key={video.id.videoId} {...video} />
         ))}
       </div>
     </div>

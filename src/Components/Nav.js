@@ -15,6 +15,12 @@ const Nav = props => {
         <Fragment>
           <Menu.Item
             as={NavLink}
+            to="/home"
+            name="Home"
+            active={pathname === "/home"}
+          />
+          <Menu.Item
+            as={NavLink}
             to="/profile"
             name="Profile"
             active={pathname === "/profile"}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Icon } from "semantic-ui-react";
 
 // embedded iframe (id.videoId)
 //title & description
@@ -19,9 +20,12 @@ const VideoDetail = props => {
         </div>
         <div className="ui secondary segment">
           <p>{props.video.snippet.description}</p>
-          <button onClick={props.addToPlaylist(props.video)}>
-            Add to Playlist
-          </button>
+          <Button animated onClick={() => props.addToPlaylist(props.video)}>
+            <Button.Content visible>Add to Playlist</Button.Content>
+            <Button.Content hidden>
+              <Icon name="save" />
+            </Button.Content>
+          </Button>
         </div>
       </div>
     </div>
