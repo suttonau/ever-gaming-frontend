@@ -4,7 +4,7 @@ import React from "react";
 //title & description
 
 const VideoDetail = props => {
-  const embedUrl = `https://www.youtube.com/embed/${props.id.videoId}`;
+  const embedUrl = `https://www.youtube.com/embed/${props.video.id.videoId}`;
 
   return (
     <div className="twelve wide column">
@@ -15,11 +15,13 @@ const VideoDetail = props => {
           </div>
         </div>
         <div className="ui segment">
-          <h4>{props.snippet.title}</h4>
+          <h4>{props.video.snippet.title}</h4>
         </div>
         <div className="ui secondary segment">
-          <p>{props.snippet.description}</p>
-          <button>Add to Playlist</button>
+          <p>{props.video.snippet.description}</p>
+          <button onClick={props.addToPlaylist(props.video)}>
+            Add to Playlist
+          </button>
         </div>
       </div>
     </div>

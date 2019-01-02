@@ -52,6 +52,7 @@ class App extends React.Component {
     this.state = {
       searchResults: response,
       selectedVideo: null,
+      playlist: [],
       currentUser: {
         username: "Default User"
       }
@@ -60,6 +61,18 @@ class App extends React.Component {
 
   updateCurrentUser = user => {
     this.setState({ currentUser: user });
+  };
+
+  playlistVideos = video => {
+    return this.state.playlist.includes(video);
+  };
+
+  addToPlaylist = video => {
+    if (!this.playlistVideos(video)) {
+      this.setState({
+        playlist: [...this.state.playlist, video]
+      });
+    }
   };
 
   componentDidMount() {
@@ -128,7 +141,10 @@ class App extends React.Component {
               <div className="ui grid container">
                 <SearchBar onChangeSearch={debounceSearch} />
                 {this.state.selectedVideo ? (
-                  <VideoDetail {...this.state.selectedVideo} />
+                  <VideoDetail
+                    video={this.state.selectedVideo}
+                    addToPlaylist={this.addToPlaylist}
+                  />
                 ) : (
                   "Loading..."
                 )}
@@ -143,7 +159,10 @@ class App extends React.Component {
             path="/profile"
             render={() => <Profile currentUser={this.state.currentUser} />}
           />
-          <Route path="/playlist" render={() => <Playlist />} />
+          <Route
+            path="/playlist"
+            render={() => <Playlist myPlaylist={this.state.playlist} />}
+          />
           <Route
             path="/login"
             render={() =>
