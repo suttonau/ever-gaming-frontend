@@ -6,6 +6,9 @@ import Profile from "./Components/Profile";
 import LoginForm from "./Components/LoginForm";
 import Nav from "./Components/Nav";
 import NotFound from "./Components/NotFound";
+import logo from "./Components/evergaming-logo.png";
+import { Segment, Image } from "semantic-ui-react";
+import SignUpForm from "./Components/SignUpForm";
 // import Videos from "./Containers/Videos";
 
 import VideoList from "./Components/VideoList";
@@ -13,6 +16,7 @@ import VideoDetail from "./Components/VideoDetail";
 import SearchBar from "./Components/SeachBar";
 import Playlist from "./Components/Playlist";
 import { API_KEY } from "./keys";
+import "./App.css";
 
 const response = [
   {
@@ -53,9 +57,7 @@ class App extends React.Component {
       searchResults: response,
       selectedVideo: null,
       playlist: [],
-      currentUser: {
-        username: "Default User"
-      }
+      currentUser: null
     };
   }
 
@@ -67,19 +69,44 @@ class App extends React.Component {
     return this.state.playlist.includes(video);
   };
 
+  postPlaylist = video => {
+    fetch(`http://localhost:3000/api/v1/playlist`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(video)
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(video);
+        console.log(video.id.videoId);
+      });
+  };
+
   addToPlaylist = video => {
     if (!this.playlistVideos(video)) {
+      this.postPlaylist(video);
       this.setState({
         playlist: [...this.state.playlist, video]
       });
     }
   };
 
-  componentDidMount() {
-    //see if there's a token
-    //send that token to the backend
-    //backend will send currentUser data
+  //   fetchPlaylist = () => {
+  //   fetch(`http://localhost:3000/api/v1/playlist`)
+  //     .then(resp => resp.json())
+  //     .then(data =>
+  //       this.setState({
+  //         playlist: data
+  //       })
+  //     );
+  // };
 
+  componentDidMount() {
+    //see if there's a token, send that token to the backend
+    //backend will send currentUser data
     let token = localStorage.getItem("token");
     if (token) {
       fetch(`http://localhost:3000/api/v1/profile`, {
@@ -93,9 +120,10 @@ class App extends React.Component {
           this.setState({
             currentUser: data.user
           });
+          //fetch playlist
         });
     }
-    this.fetchVideos("GTA V Gameplay");
+    this.fetchVideos("GTA 5 free roam gameplay HD");
   }
 
   logout = () => {
@@ -123,10 +151,6 @@ class App extends React.Component {
       selectedVideo: video
     });
   };
-
-  // componentDidMount() {
-  //   this.fetchVideos("GTA V Gameplay");
-  // }
 
   render() {
     let debounceSearch = _.debounce(this.fetchVideos, 200);
@@ -161,8 +185,27 @@ class App extends React.Component {
           />
           <Route
             path="/playlist"
-            render={() => <Playlist myPlaylist={this.state.playlist} />}
+            render={() => (
+              <Playlist
+                selectedVideo={this.state.selectedVideo}
+                selectVideo={this.updateSelected}
+                videos={this.state.searchResults}
+                myPlaylist={this.state.playlist}
+              />
+            )}
           />
+
+          <Route
+            path="/signup"
+            render={() =>
+              this.state.currentUser ? (
+                <Redirect to="/profile" />
+              ) : (
+                <SignUpForm updateCurrentUser={this.updateCurrentUser} />
+              )
+            }
+          />
+
           <Route
             path="/login"
             render={() =>

@@ -9,7 +9,6 @@ const VideoListItem = ({ etag, id, snippet, clickHandler }) => {
           src={snippet.thumbnails.default.url}
         />
         <div className="content">{snippet.title}</div>
-        <p>{snippet.description}</p>
       </div>
     </div>
   );

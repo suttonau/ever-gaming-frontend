@@ -15,18 +15,21 @@ const Nav = props => {
         <Fragment>
           <Menu.Item
             as={NavLink}
+            color="blue"
             to="/home"
             name="Home"
             active={pathname === "/home"}
           />
           <Menu.Item
             as={NavLink}
+            color="blue"
             to="/profile"
             name="Profile"
             active={pathname === "/profile"}
           />
           <Menu.Item
             as={NavLink}
+            color="blue"
             to="/playlist"
             name="My Playlist"
             active={pathname === "/playlist"}
