@@ -87,6 +87,7 @@ class SignUpForm extends Component {
               <Form.Field>
                 <label>Password:</label>
                 <input
+                  type="password"
                   name="password"
                   onChange={this.handleChange}
                   placeholder="Password"
@@ -96,6 +97,7 @@ class SignUpForm extends Component {
                 <label>Confirm Password:</label>
                 <input
                   name="confirm_password"
+                  type="password"
                   onChange={this.handleChange}
                   placeholder="Confirm Password"
                 />
