@@ -20,19 +20,3 @@ const VideoList = props => {
 };
 
 export default VideoList;
-
-// const VideoList = ({ videos, onVideoSelect }) => {
-//   const videoItems = videos.map(video => (
-//     <VideoListItem
-//       key={video.etag}
-//       video={video}
-//       onVideoSelect={onVideoSelect}
-//     />
-//   ));
-//
-//   return (
-//     <div className="four wide column">
-//       <div className="ui relaxed items">{videoItems}</div>
-//     </div>
-//   );
-// };
