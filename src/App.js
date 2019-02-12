@@ -80,7 +80,7 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log(video);
+        // console.log(video);
         console.log(video.id.videoId);
       });
   };
