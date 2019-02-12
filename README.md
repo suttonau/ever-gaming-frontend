@@ -1,5 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+evergaming is a video sharing application similar to TWITCH and YOUTUBE
 ## Available Scripts
 
 In the project directory, you can run:
