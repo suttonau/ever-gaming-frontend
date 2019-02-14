@@ -18,6 +18,7 @@ import Playlist from "./Components/Playlist";
 import { API_KEY } from "./keys";
 import "./App.css";
 
+//sample response from YouTube API
 const response = [
   {
     etag: '"m2yskBQFythfE4irbTIeOgYYfBU/XoCknp0EO0YWZcuTVD_GhkJp_-M"',
@@ -69,6 +70,7 @@ class App extends React.Component {
     return this.state.playlist.includes(video);
   };
 
+  //POST fetch to Playlist
   postPlaylist = video => {
     fetch(`http://localhost:3000/api/v1/playlist`, {
       method: "POST",
@@ -120,9 +122,10 @@ class App extends React.Component {
           this.setState({
             currentUser: data.user
           });
-          //fetch playlist
+          //fetch playlist for that User
         });
     }
+    //sample response to fetch data
     this.fetchVideos("GTA 5 free roam gameplay HD");
   }
 
