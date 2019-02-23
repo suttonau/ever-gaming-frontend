@@ -1,6 +1,6 @@
-import React from "react";
-import logo from "./evergaming-logo.png";
-import { withRouter } from "react-router";
+import React from 'react';
+import logo from '../assets/evergaming-logo.png;
+import { withRouter } from 'react-router';
 import {
   Button,
   Form,
@@ -9,12 +9,12 @@ import {
   Image,
   Segment,
   Message
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
 class LoginForm extends React.Component {
   state = {
-    username: "",
-    password: ""
+    username: '',
+    password: ''
   };
 
   handleChange = (event, { name, value }) => {
@@ -25,10 +25,10 @@ class LoginForm extends React.Component {
 
   handleLoginSubmit = () => {
     fetch(`http://localhost:3000/api/v1/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-type": "application/json",
-        Accept: "application/json"
+        'Content-type': 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify({
         username: this.state.username,
@@ -38,9 +38,9 @@ class LoginForm extends React.Component {
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          alert("wrong!");
+          alert('wrong!');
         } else {
-          localStorage.setItem("token", data.token);
+          localStorage.setItem('token', data.token);
           //set the state of currentUser, to be the user that is logged in
           this.props.updateCurrentUser(data.user);
         }
@@ -51,13 +51,13 @@ class LoginForm extends React.Component {
     return (
       <div className="login-form">
         {/*
-     Heads up! The styles below are necessary for the correct render of this example.
-     You can do same with CSS, the main idea is that all the elements up to the `Grid`
+     Heads up! The styles below are necessary for the correct render of this.
+     You can do same with a CSS file, the main idea is that all the elements up to the `Grid`
      below must have a height of 100%.
    */}
         <Grid
           textAlign="center"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
