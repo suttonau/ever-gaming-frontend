@@ -5,3 +5,10 @@
 </p>
 
 ### A gaming-themed video sharing application. Users search for videos using Google's YouTube API and build playlist to share with their followers.
+
+## Instructions: 
+1. Install the repository with ```npm install``` 
+ 
+2. Start the application with ```npm start``` 
+
+3. Search for your favorite game walkthroughs, or tutorials!
