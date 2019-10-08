@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/evergaming-logo.png;
+import logo from './evergaming-logo.png'
 import { withRouter } from 'react-router';
 import {
   Button,

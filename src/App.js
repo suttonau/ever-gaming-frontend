@@ -1,12 +1,16 @@
 import React, { Fragment } from "react";
 import _ from "lodash";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import Profile from "./Components/Profile";
 import LoginForm from "./Components/LoginForm";
 import Nav from "./Components/Nav";
 import NotFound from "./Components/NotFound";
+import logo from "./Components/evergaming-logo.png";
+import { Segment, Image } from "semantic-ui-react";
 import SignUpForm from "./Components/SignUpForm";
+// import Videos from "./Containers/Videos";
+
 import VideoList from "./Components/VideoList";
 import VideoDetail from "./Components/VideoDetail";
 import SearchBar from "./Components/SeachBar";
@@ -14,7 +18,37 @@ import Playlist from "./Components/Playlist";
 import { API_KEY } from "./keys";
 import "./App.css";
 
-
+const response = [
+  {
+    etag: '"m2yskBQFythfE4irbTIeOgYYfBU/XoCknp0EO0YWZcuTVD_GhkJp_-M"',
+    id: { kind: "youtube#video", videoId: "KMZ7oOCXfP8" },
+    snippet: {
+      title:
+        "Super Smart Dolphin Answers Questions - Extraordinary Animals - Earth",
+      description:
+        "The Echo Location Visualization and Interface System (ELVIS) allows Dolphins to make choices and answer questions. Luna the young Dolphin grasped the ...",
+      thumbnails: {
+        default: {
+          url: "https://i.ytimg.com/vi/KMZ7oOCXfP8/default.jpg"
+        }
+      }
+    }
+  },
+  {
+    etag: '"m2yskBQFythfE4irbTIeOgYYfBU/z_l0ThWRPFnv9um1eRM_O1LVUqU"',
+    id: { kind: "youtube#video", videoId: "3Bk6VPWGi1o" },
+    snippet: {
+      title: 'The Complete 2016 SeaWorld "Blue Horizons" Dolphin Show',
+      description:
+        "Please SUBSCRIBE by clicking here: http://www.youtube.com/subscription_center?add_user=MoneySavingVideos To see my entire SeaWorld playlist click ...",
+      thumbnails: {
+        default: {
+          url: "https://i.ytimg.com/vi/3Bk6VPWGi1o/default.jpg"
+        }
+      }
+    }
+  }
+];
 
 class App extends React.Component {
   constructor() {
@@ -35,7 +69,6 @@ class App extends React.Component {
     return this.state.playlist.includes(video);
   };
 
-  //POST fetch to Playlist
   postPlaylist = video => {
     fetch(`http://localhost:3000/api/v1/playlist`, {
       method: "POST",
@@ -47,7 +80,7 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        // console.log(video);
+        console.log(video);
         console.log(video.id.videoId);
       });
   };
@@ -87,10 +120,9 @@ class App extends React.Component {
           this.setState({
             currentUser: data.user
           });
-          //fetch playlist for that User
+          //fetch playlist
         });
     }
-    //sample response to fetch data
     this.fetchVideos("GTA 5 free roam gameplay HD");
   }
 

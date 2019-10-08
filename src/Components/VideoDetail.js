@@ -1,6 +1,9 @@
 import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 
+// embedded iframe (id.videoId)
+//title & description
+
 const VideoDetail = props => {
   const embedUrl = `https://www.youtube.com/embed/${props.video.id.videoId}`;
 

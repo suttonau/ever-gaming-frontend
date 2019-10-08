@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -9,24 +9,24 @@ import {
   Image,
   Segment,
   Message
-} from 'semantic-ui-react';
-import logo from '../assets/evergaming-logo.png';
+} from "semantic-ui-react";
+import logo from "./evergaming-logo.png";
 
-const usersURL = 'http://localhost:3000/api/v1/users';
+const usersURL = "http://localhost:3000/api/v1/users";
 
 class SignUpForm extends Component {
   state = {
-    password: '',
-    confirm_password: '',
-    username: ''
+    password: "",
+    confirm_password: "",
+    username: ""
   };
 
   postUser = data => {
     fetch(usersURL, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+        "Content-Type": "application/json",
+        Accept: "application/json"
       },
       body: JSON.stringify(data)
     })
@@ -35,8 +35,8 @@ class SignUpForm extends Component {
         console.log(data);
 
         this.props.updateCurrentUser(data.user);
-        localStorage.setItem('token', data.jwt);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem("token", data.jwt);
+        localStorage.setItem("user", JSON.stringify(data.user));
       });
   };
 
@@ -51,7 +51,7 @@ class SignUpForm extends Component {
       };
       this.postUser(data);
     } else {
-      alert('Your passwords do not match');
+      alert("Your passwords do not match");
     }
   };
 
@@ -66,7 +66,7 @@ class SignUpForm extends Component {
       <div className="login-form">
         <Grid
           textAlign="center"
-          style={{ height: '100%' }}
+          style={{ height: "100%" }}
           verticalAlign="middle"
         >
           <Grid.Column style={{ maxWidth: 450 }}>
@@ -87,7 +87,6 @@ class SignUpForm extends Component {
               <Form.Field>
                 <label>Password:</label>
                 <input
-                  type="password"
                   name="password"
                   onChange={this.handleChange}
                   placeholder="Password"
@@ -97,7 +96,6 @@ class SignUpForm extends Component {
                 <label>Confirm Password:</label>
                 <input
                   name="confirm_password"
-                  type="password"
                   onChange={this.handleChange}
                   placeholder="Confirm Password"
                 />
@@ -114,3 +112,18 @@ class SignUpForm extends Component {
 }
 
 export default SignUpForm;
+
+// <Form>
+//   <Form.Field>
+//     <label>First Name</label>
+//     <input placeholder='First Name' />
+//   </Form.Field>
+//   <Form.Field>
+//     <label>Password</label>
+//     <input placeholder='Last Name' />
+//   </Form.Field>
+//   <Form.Field>
+//     <Checkbox label='I agree to the Terms and Conditions' />
+//   </Form.Field>
+//   <Button type='submit'>Submit</Button>
+// </Form>
